@@ -1,4 +1,4 @@
-# go-launchd ![workflow](https://github.com/bored-engineer/go-launchd/actions/workflows/test.yml/badge.svg)
+# go-launchd [![Go Reference](https://pkg.go.dev/badge/github.com/bored-engineer/go-launchd.svg)](https://pkg.go.dev/github.com/bored-engineer/go-launchd) [![Test Workflow](https://github.com/bored-engineer/go-launchd/actions/workflows/test.yml/badge.svg)](https://github.com/bored-engineer/go-launchd/actions/workflows/test.yml)
 [Golang](https://go.dev/) support for macOS (Darwin) launchd socket activation ([launch_activate_socket](https://developer.apple.com/documentation/xpc/1505523-launch_activate_socket)) without [cgo](https://pkg.go.dev/cmd/cgo).
 
 ## How it works
