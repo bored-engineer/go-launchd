@@ -1,0 +1,26 @@
+name: Test go-launchd
+on: [push]
+jobs:
+  test:
+    name: Test with Go ${{ matrix.version }} on ${{ matrix.os }} where CGO_ENABLED=${{ matrix.cgo }}
+    strategy:
+      matrix:
+        version: ["1.20", "1.21"]
+        os: ["macos-latest", "macos-12", "macos-11"]
+        cgo: ["1", "0"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Go ${{ matrix.version }} on ${{ matrix.os }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.version }}
+      - name: Build
+        run: go build -o /tmp/agent ./example/
+        env:
+          CGO_ENABLED: ${{ matrix.cgo }}
+      - name: Load LaunchDaemon
+        run: launchctl load ./example/agent.plist
+      - name: Test
+        run: echo "Hello World" | nc -w5 localhost 1337 | grep "Hello World"
+
