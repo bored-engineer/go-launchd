@@ -27,7 +27,12 @@ func libxpc_launch_activate_socket(name string) ([]int, error) {
 		return nil, err
 	}
 	var c_fds_ptr *uintptr // *C.int
-	var c_cnt uint         // C.size_t
+	defer func() {
+		if c_fds_ptr != nil {
+			free(unsafe.Pointer(c_fds_ptr))
+		}
+	}()
+	var c_cnt uint // C.size_t
 	res, _, _ := syscall_syscall(
 		libxpc_launch_activate_socket_trampoline_addr,
 		uintptr(unsafe.Pointer(c_name_ptr)),
@@ -41,7 +46,6 @@ func libxpc_launch_activate_socket(name string) ([]int, error) {
 		return nil, syscall.EINVAL
 	}
 	c_fds := (*[maxFDs]int)(unsafe.Pointer(c_fds_ptr))
-	// TODO: free c_fds_ptr after copy?
 	fds := make([]int, c_cnt)
 	copy(fds, (*c_fds)[0:c_cnt])
 	return fds, nil
