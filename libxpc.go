@@ -12,7 +12,7 @@ import (
 // Supported is true if launchd socket activation is supported on this platform
 const Supported = true
 
-// As a sanity check, refuse any returned array larger than this with syscall.E2BIG
+// As a sanity check, refuse any returned array larger than this with syscall.EINVAL
 const maxFDs = 1 << 20
 
 // launch_activate_socket is defined in libxpc.dylib
@@ -22,7 +22,6 @@ var libxpc_launch_activate_socket_trampoline_addr uintptr
 
 // invokes launch_activate_socket
 func libxpc_launch_activate_socket(name string) ([]int, error) {
-	// TODO: free c_name_ptr after syscall_syscall?
 	c_name_ptr, err := syscall.BytePtrFromString(name)
 	if err != nil {
 		return nil, err
@@ -39,7 +38,7 @@ func libxpc_launch_activate_socket(name string) ([]int, error) {
 	if res != 0 {
 		return nil, syscall.Errno(res)
 	} else if c_cnt > maxFDs {
-		return nil, syscall.E2BIG
+		return nil, syscall.EINVAL
 	}
 	c_fds := (*[maxFDs]int)(unsafe.Pointer(c_fds_ptr))
 	// TODO: free c_fds_ptr after copy?

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	l, err := launchd.Socket("Listener")
+	l, err := launchd.Activate("Listeners")
 	if err != nil {
 		log.Fatalf("launchd.Socket failed: %s", err)
 	}

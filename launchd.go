@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"syscall"
 )
 
 // Files returns the *os.File for a given socket name
@@ -17,17 +18,6 @@ func Files(name string) ([]*os.File, error) {
 		files[idx] = os.NewFile(uintptr(fd), "")
 	}
 	return files, nil
-}
-
-// File returns a single *os.File for a given socket name
-func File(name string) (*os.File, error) {
-	files, err := Files(name)
-	if err != nil {
-		return nil, err
-	} else if len(files) != 1 {
-		return nil, fmt.Errorf("expected 1 file, got %d", len(files))
-	}
-	return files[0], nil
 }
 
 // Sockets returns the net.Listener for each socket name
@@ -47,13 +37,14 @@ func Sockets(name string) ([]net.Listener, error) {
 	return listeners, nil
 }
 
-// Socket returns a single net.Listener for a given socket name
-func Socket(name string) (net.Listener, error) {
+// Activates a single net.Listener with the given socket name
+// If anything other than a single file descriptor is available syscall.EINVAL is returned
+func Activate(name string) (net.Listener, error) {
 	listeners, err := Sockets(name)
 	if err != nil {
 		return nil, err
 	} else if len(listeners) != 1 {
-		return nil, fmt.Errorf("expected 1 listener, got %d", len(listeners))
+		return nil, syscall.EINVAL
 	}
 	return listeners[0], nil
 }
