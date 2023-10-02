@@ -18,6 +18,8 @@
 		<string>1337</string>
 		<key>SockType</key>
 		<string>stream</string>
+		<key>SockNodeName</key>
+		<string>0.0.0.0</string>
 		<key>SockFamily</key>
 		<string>IPv4v6</string>
         </dict>
