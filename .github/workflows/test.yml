@@ -22,5 +22,7 @@ jobs:
           CGO_ENABLED: ${{ matrix.cgo }}
       - name: Load LaunchDaemon
         run: launchctl load ./example/agent.plist
-      - name: Test
-        run: echo "Hello World" | nc -w5 localhost 1337 | grep "Hello World"
+      - name: Test IPv4
+        run: echo "Hello World" | nc -w5 -4 localhost 1337 | grep "Hello World"
+      - name: Test IPv6
+        run: echo "Hello World" | nc -w5 -6 localhost 1337 | grep "Hello World"
