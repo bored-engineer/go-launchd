@@ -17,7 +17,7 @@
 			<key>SockFamily</key>
 			<string>IPv4v6</string>
 			<key>SockNodeName</key>
-			<string>0.0.0.0</string>
+			<string>localhost</string>
 			<key>SockProtocol</key>
 			<string>TCP</string>
 			<key>SockServiceName</key>
