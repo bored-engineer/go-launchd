@@ -19,7 +19,7 @@
             <key>SockType</key>
             <string>stream</string>
             <key>SockFamily</key>
-            <string>IPv6</string>
+            <string>IPv4v6</string>
         </dict>
     </dict>
 </dict>
