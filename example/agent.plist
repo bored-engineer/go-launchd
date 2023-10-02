@@ -14,14 +14,12 @@
     <dict>
         <key>Listeners</key>
         <dict>
-			<key>SockFamily</key>
-			<string>IPv4v6</string>
-			<key>SockNodeName</key>
-			<string>localhost</string>
-			<key>SockProtocol</key>
-			<string>TCP</string>
-			<key>SockServiceName</key>
-			<string>1337</string>
+		<key>SockServiceName</key>
+		<string>1337</string>
+		<key>SockType</key>
+		<string>stream</string>
+		<key>SockFamily</key>
+		<string>IPv4v6</string>
         </dict>
     </dict>
 </dict>
