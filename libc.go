@@ -5,7 +5,7 @@ package launchd
 
 import "unsafe"
 
-// free is defined in libxpc.dylib
+// free is defined in libSystem.B.dylib
 var libc_free_trampoline_addr uintptr
 
 //go:cgo_import_dynamic libc_free free "/usr/lib/libSystem.B.dylib"
