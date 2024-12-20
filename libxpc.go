@@ -21,7 +21,7 @@ var libxpc_launch_activate_socket_trampoline_addr uintptr
 //go:cgo_import_dynamic libxpc_launch_activate_socket launch_activate_socket "/usr/lib/system/libxpc.dylib"
 
 // invokes launch_activate_socket
-func libxpc_launch_activate_socket(name string) ([]int, error) {
+func libxpc_launch_activate_socket(name string) ([]uintptr, error) {
 	c_name_ptr, err := syscall.BytePtrFromString(name)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,10 @@ func libxpc_launch_activate_socket(name string) ([]int, error) {
 	} else if c_cnt > maxFDs {
 		return nil, syscall.EINVAL
 	}
-	c_fds := (*[maxFDs]int)(unsafe.Pointer(c_fds_ptr))
-	fds := make([]int, c_cnt)
-	copy(fds, (*c_fds)[0:c_cnt])
+	c_fds := (*[maxFDs]int32)(unsafe.Pointer(c_fds_ptr))
+	fds := make([]uintptr, c_cnt)
+	for idx, fd := range c_fds[0:c_cnt] {
+		fds[idx] = uintptr(fd)
+	}
 	return fds, nil
 }

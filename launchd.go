@@ -15,7 +15,7 @@ func Files(name string) ([]*os.File, error) {
 	}
 	files := make([]*os.File, len(fds))
 	for idx, fd := range fds {
-		files[idx] = os.NewFile(uintptr(fd), "")
+		files[idx] = os.NewFile(fd, "")
 	}
 	return files, nil
 }
@@ -44,7 +44,7 @@ func Activate(name string) (net.Listener, error) {
 	if err != nil {
 		return nil, err
 	} else if len(listeners) != 1 {
-		return nil, syscall.EINVAL
+		return nil, fmt.Errorf("too many sockets: %v: %w", len(listeners), syscall.EINVAL)
 	}
 	return listeners[0], nil
 }
