@@ -5,8 +5,8 @@ jobs:
     name: go=${{ matrix.version }} cgo=${{ matrix.cgo }} macOS=${{ matrix.macos }} 
     strategy:
       matrix:
-        version: ["1.20", "1.21"]
-        macos: ["latest", "12", "11"]
+        version: ["1.23", "1.22"]
+        macos: ["latest", "15", "14", "13"]
         cgo: ["1", "0"]
     runs-on: macos-${{ matrix.macos }}
     steps:
