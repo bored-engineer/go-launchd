@@ -32,6 +32,7 @@ func Sockets(name string) ([]net.Listener, error) {
 		if err != nil {
 			return nil, fmt.Errorf("net.FileListener for %d failed: %w", file.Fd(), err)
 		}
+		file.Close()
 		listeners[idx] = listener
 	}
 	return listeners, nil
